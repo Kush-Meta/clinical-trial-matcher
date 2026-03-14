@@ -1,0 +1,67 @@
+[
+  {
+    "nct_id": "NCT04088630",
+    "brief_title": "Metformin for Reducing Metabolic Syndrome in T2DM Patients With CAD",
+    "phase": "PHASE3",
+    "overall_status": "RECRUITING",
+    "conditions": ["Type 2 Diabetes Mellitus", "Coronary Artery Disease", "Metabolic Syndrome"],
+    "eligibility_criteria": "Inclusion Criteria:\n- Type 2 diabetes mellitus diagnosis\n- HbA1c between 6.5% and 9.5% within the last 3 months\n- Age 30 to 75 years\n- Documented coronary artery disease\n- Patient able to make own informed decisions\n\nExclusion Criteria:\n- History of drug abuse or substance use disorder\n- Creatinine > 1.5 mg/dL at screening\n- Use of dietary supplements within 2 months prior to enrollment\n- Ketoacidosis within the past 1 year\n- Active alcohol abuse",
+    "minimum_age": "30 Years",
+    "maximum_age": "75 Years",
+    "sex": "ALL",
+    "lead_sponsor": "National Heart Institute",
+    "enrollment": 320
+  },
+  {
+    "nct_id": "NCT04217421",
+    "brief_title": "Aspirin Dose Optimization in Diabetic Patients Post-MI",
+    "phase": "PHASE2",
+    "overall_status": "RECRUITING",
+    "conditions": ["Type 2 Diabetes", "Myocardial Infarction", "Cardiovascular Disease"],
+    "eligibility_criteria": "Inclusion Criteria:\n- Type 2 diabetes mellitus\n- Myocardial infarction within the past 6 months\n- Currently taking aspirin 81mg daily for MI prevention\n- HbA1c > 7.0% at baseline\n- Age >= 18 years\n\nExclusion Criteria:\n- Drug abuse or illicit substance use in the past 2 years\n- Creatinine > 2.0 mg/dL\n- Alcohol abuse (> 14 drinks/week)",
+    "minimum_age": "18 Years",
+    "maximum_age": "",
+    "sex": "ALL",
+    "lead_sponsor": "Cardiovascular Research Institute",
+    "enrollment": 180
+  },
+  {
+    "nct_id": "NCT05123456",
+    "brief_title": "Intensive Glycemic Control in Advanced CAD Patients",
+    "phase": "PHASE3",
+    "overall_status": "RECRUITING",
+    "conditions": ["Advanced Coronary Artery Disease", "Type 2 Diabetes", "HbA1c Elevation"],
+    "eligibility_criteria": "Inclusion Criteria:\n- Advanced coronary artery disease defined as at least 2 of the following: history of MI, coronary artery bypass graft surgery, percutaneous coronary intervention, or catheterization showing >= 50% stenosis\n- HbA1c >= 7.5% and <= 10.0% within 3 months\n- Major diabetes diagnosis (Type 1 or Type 2)\n- English-speaking patient capable of giving informed consent\n\nExclusion Criteria:\n- Creatinine > 2.5 mg/dL\n- Drug abuse within the past 5 years\n- Dietary supplements use in the past 2 months\n- Ketoacidosis within the past year",
+    "minimum_age": "40 Years",
+    "maximum_age": "80 Years",
+    "sex": "ALL",
+    "lead_sponsor": "Academic Medical Center",
+    "enrollment": 450
+  },
+  {
+    "nct_id": "NCT04567890",
+    "brief_title": "SGLT2 Inhibitor in Heart Failure With Preserved Ejection Fraction and T2DM",
+    "phase": "PHASE3",
+    "overall_status": "RECRUITING",
+    "conditions": ["Heart Failure", "Type 2 Diabetes", "HFpEF"],
+    "eligibility_criteria": "Inclusion Criteria:\n- Confirmed heart failure with preserved ejection fraction (EF >= 45%)\n- Type 2 diabetes mellitus\n- HbA1c between 6.5% and 11.0%\n- Age >= 50 years\n- Patient is able to make own medical decisions\n\nExclusion Criteria:\n- Creatinine > 2.0 mg/dL or eGFR < 30 mL/min\n- Active alcohol abuse\n- Drug abuse in past 3 years\n- Dietary supplements (omega-3, CoQ10, or similar) within 2 months",
+    "minimum_age": "50 Years",
+    "maximum_age": "85 Years",
+    "sex": "ALL",
+    "lead_sponsor": "Heart Failure Research Consortium",
+    "enrollment": 600
+  },
+  {
+    "nct_id": "NCT05234567",
+    "brief_title": "Creatinine-Based CKD Progression in T2DM Patients on Metformin",
+    "phase": "PHASE2",
+    "overall_status": "RECRUITING",
+    "conditions": ["Chronic Kidney Disease", "Type 2 Diabetes", "Diabetic Nephropathy"],
+    "eligibility_criteria": "Inclusion Criteria:\n- Type 2 diabetes mellitus\n- Creatinine > 1.2 mg/dL (above upper limit of normal)\n- HbA1c between 7.0% and 9.0% within 6 months\n- Currently prescribed metformin\n- Age 35 to 70 years\n\nExclusion Criteria:\n- Creatinine > 3.0 mg/dL (advanced CKD)\n- Drug or alcohol abuse\n- Dietary supplements within 2 months",
+    "minimum_age": "35 Years",
+    "maximum_age": "70 Years",
+    "sex": "ALL",
+    "lead_sponsor": "Renal Research Institute",
+    "enrollment": 280
+  }
+]

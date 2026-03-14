@@ -1,0 +1,9 @@
+pydantic==2.6.1
+pydantic-settings==2.2.1
+streamlit==1.31.1
+pandas==2.2.0
+plotly==5.18.0
+httpx==0.26.0
+rapidfuzz==3.6.1
+scikit-learn==1.4.0
+matplotlib==3.8.2

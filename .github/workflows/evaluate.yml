@@ -1,0 +1,50 @@
+name: Evaluate (n2c2 Benchmark)
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_patients:
+        description: "Maximum patients to evaluate (leave blank for all)"
+        required: false
+        default: ""
+
+jobs:
+  evaluate:
+    name: Run n2c2 Evaluation
+    runs-on: ubuntu-latest
+    # Requires n2c2 data and Ollama — run on self-hosted runner with access
+    # Comment out environment if not set up
+    # environment: evaluation
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+          pip install -e .
+
+      - name: Run evaluation
+        env:
+          TRIAL_MATCHER_OLLAMA_BASE_URL: http://localhost:11434
+          TRIAL_MATCHER_OLLAMA_MODEL: llama3.1:8b
+          TRIAL_MATCHER_N2C2_DATA_DIR: data/raw/n2c2_2018
+        run: |
+          MAX_ARGS=""
+          if [ -n "${{ github.event.inputs.max_patients }}" ]; then
+            MAX_ARGS="--max-patients ${{ github.event.inputs.max_patients }}"
+          fi
+          python scripts/run_n2c2_eval.py $MAX_ARGS
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add results/
+          git diff --cached --quiet || git commit -m "chore: update n2c2 evaluation results [skip ci]"
+          git push

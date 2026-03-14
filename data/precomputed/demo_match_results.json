@@ -1,0 +1,1226 @@
+[
+  {
+    "patient_id": "SYN-29CADD68",
+    "nct_id": "NCT04088630",
+    "trial_title": "Metformin for Reducing Metabolic Syndrome in T2DM Patients With CAD",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.7833333333333333,
+    "inclusion_results": [
+      {
+        "criterion_id": "56987f52",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus diagnosis",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "18df16a3",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c \u2014 no data found",
+        "raw_criterion_text": "HbA1c between 6.5% and 9.5% within 3 months",
+        "status": "ABSTAIN",
+        "confidence": 0.0,
+        "abstention_reason": "MISSING_DATA",
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "58b933cc",
+        "criterion_type": "DEMOGRAPHIC",
+        "criterion_summary": "Age BETWEEN 30.0",
+        "raw_criterion_text": "Age 30 to 75 years",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Patient age: 52",
+            "source_type": "structured",
+            "source_date": null,
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "bac66a4b",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "History of drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "42bbcd84",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "Creatinine > 1.5mg/dL",
+        "raw_criterion_text": "Creatinine > 1.5 mg/dL",
+        "status": "NOT_SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Creatinine: 0.88 mg/dL (threshold: > 1.5mg/dL)",
+            "source_type": "structured",
+            "source_date": "2024-04-02",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "58a3d04f",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DIETSUPP-2MOS present",
+        "raw_criterion_text": "Dietary supplements within 2 months",
+        "status": "SATISFIED",
+        "confidence": 0.8,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 1,
+    "n_inclusion_abstain": 1,
+    "n_exclusion_triggered": 1,
+    "blocking_criterion_summary": "EXCLUDED: DIETSUPP-2MOS present",
+    "match_score": 0.39166666666666666
+  },
+  {
+    "patient_id": "SYN-29CADD68",
+    "nct_id": "NCT04217421",
+    "trial_title": "Aspirin Dose Optimization in Diabetic Patients Post-MI",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.6666666666666666,
+    "inclusion_results": [
+      {
+        "criterion_id": "3dbfa64f",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "bfe01542",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c \u2014 no data found",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "ABSTAIN",
+        "confidence": 0.0,
+        "abstention_reason": "MISSING_DATA",
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "2056c0d6",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 0,
+    "n_inclusion_abstain": 1,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": "FAILED INCLUSION: type 2 diabetes mellitus (present)",
+    "match_score": 0.16666666666666666
+  },
+  {
+    "patient_id": "SYN-29CADD68",
+    "nct_id": "NCT05123456",
+    "trial_title": "Intensive Glycemic Control in Advanced CAD Patients",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.6666666666666666,
+    "inclusion_results": [
+      {
+        "criterion_id": "c3654ba1",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "f6d7667f",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c \u2014 no data found",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "ABSTAIN",
+        "confidence": 0.0,
+        "abstention_reason": "MISSING_DATA",
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "035cdef7",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 0,
+    "n_inclusion_abstain": 1,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": "FAILED INCLUSION: type 2 diabetes mellitus (present)",
+    "match_score": 0.16666666666666666
+  },
+  {
+    "patient_id": "SYN-1D7A89B3",
+    "nct_id": "NCT04088630",
+    "trial_title": "Metformin for Reducing Metabolic Syndrome in T2DM Patients With CAD",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.9666666666666667,
+    "inclusion_results": [
+      {
+        "criterion_id": "b9f6cf98",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus diagnosis",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2023-11-16)",
+            "source_type": "structured",
+            "source_date": "2023-11-16",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "0ec10c32",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5% [within 3 months]",
+        "raw_criterion_text": "HbA1c between 6.5% and 9.5% within 3 months",
+        "status": "SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 8.1 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-04-29",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "87223ba1",
+        "criterion_type": "DEMOGRAPHIC",
+        "criterion_summary": "Age BETWEEN 30.0",
+        "raw_criterion_text": "Age 30 to 75 years",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Patient age: 65",
+            "source_type": "structured",
+            "source_date": null,
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "aea27cbd",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "History of drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "77fbb960",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "Creatinine > 1.5mg/dL",
+        "raw_criterion_text": "Creatinine > 1.5 mg/dL",
+        "status": "SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Creatinine: 1.66 mg/dL (threshold: > 1.5mg/dL)",
+            "source_type": "structured",
+            "source_date": "2024-05-18",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "23deb8d5",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DIETSUPP-2MOS present",
+        "raw_criterion_text": "Dietary supplements within 2 months",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 3,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 1,
+    "blocking_criterion_summary": "EXCLUDED: Creatinine > 1.5mg/dL",
+    "match_score": 0.9666666666666667
+  },
+  {
+    "patient_id": "SYN-1D7A89B3",
+    "nct_id": "NCT04217421",
+    "trial_title": "Aspirin Dose Optimization in Diabetic Patients Post-MI",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 1.0,
+    "inclusion_results": [
+      {
+        "criterion_id": "b8074eeb",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2023-11-16)",
+            "source_type": "structured",
+            "source_date": "2023-11-16",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "535677c9",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 8.1 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-04-29",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "0dc27110",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 1.0
+  },
+  {
+    "patient_id": "SYN-1D7A89B3",
+    "nct_id": "NCT05123456",
+    "trial_title": "Intensive Glycemic Control in Advanced CAD Patients",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 1.0,
+    "inclusion_results": [
+      {
+        "criterion_id": "be768099",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2023-11-16)",
+            "source_type": "structured",
+            "source_date": "2023-11-16",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "a367bdc7",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 8.1 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-04-29",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "ac240f38",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 1.0
+  },
+  {
+    "patient_id": "SYN-9F495A23",
+    "nct_id": "NCT04088630",
+    "trial_title": "Metformin for Reducing Metabolic Syndrome in T2DM Patients With CAD",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.9500000000000001,
+    "inclusion_results": [
+      {
+        "criterion_id": "b6604b06",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus diagnosis",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2022-05-30)",
+            "source_type": "structured",
+            "source_date": "2022-05-30",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "a222eda0",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5% [within 3 months]",
+        "raw_criterion_text": "HbA1c between 6.5% and 9.5% within 3 months",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 7.9 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-05-15",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "eaa68261",
+        "criterion_type": "DEMOGRAPHIC",
+        "criterion_summary": "Age BETWEEN 30.0",
+        "raw_criterion_text": "Age 30 to 75 years",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Patient age: 70",
+            "source_type": "structured",
+            "source_date": null,
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "ad0fdcf6",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "History of drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "06367c58",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "Creatinine > 1.5mg/dL",
+        "raw_criterion_text": "Creatinine > 1.5 mg/dL",
+        "status": "NOT_SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Creatinine: 1.02 mg/dL (threshold: > 1.5mg/dL)",
+            "source_type": "structured",
+            "source_date": "2024-03-20",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "df88cb79",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DIETSUPP-2MOS present",
+        "raw_criterion_text": "Dietary supplements within 2 months",
+        "status": "SATISFIED",
+        "confidence": 0.8,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 3,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 1,
+    "blocking_criterion_summary": "EXCLUDED: DIETSUPP-2MOS present",
+    "match_score": 0.9500000000000001
+  },
+  {
+    "patient_id": "SYN-9F495A23",
+    "nct_id": "NCT04217421",
+    "trial_title": "Aspirin Dose Optimization in Diabetic Patients Post-MI",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 1.0,
+    "inclusion_results": [
+      {
+        "criterion_id": "f17373c9",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2022-05-30)",
+            "source_type": "structured",
+            "source_date": "2022-05-30",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "f6424bb5",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 7.9 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-05-15",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "70dd150f",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 1.0
+  },
+  {
+    "patient_id": "SYN-9F495A23",
+    "nct_id": "NCT05123456",
+    "trial_title": "Intensive Glycemic Control in Advanced CAD Patients",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 1.0,
+    "inclusion_results": [
+      {
+        "criterion_id": "c6859188",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2022-05-30)",
+            "source_type": "structured",
+            "source_date": "2022-05-30",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "d48945f4",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 7.9 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-05-15",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "6f1bbb0f",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 1.0
+  },
+  {
+    "patient_id": "SYN-736D04E9",
+    "nct_id": "NCT04088630",
+    "trial_title": "Metformin for Reducing Metabolic Syndrome in T2DM Patients With CAD",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 0.9666666666666667,
+    "inclusion_results": [
+      {
+        "criterion_id": "6c200080",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus diagnosis",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2024-01-04)",
+            "source_type": "structured",
+            "source_date": "2024-01-04",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "023289ba",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5% [within 3 months]",
+        "raw_criterion_text": "HbA1c between 6.5% and 9.5% within 3 months",
+        "status": "SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 8.4 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-03-03",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "664e6143",
+        "criterion_type": "DEMOGRAPHIC",
+        "criterion_summary": "Age BETWEEN 30.0",
+        "raw_criterion_text": "Age 30 to 75 years",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Patient age: 58",
+            "source_type": "structured",
+            "source_date": null,
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "b41db227",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "History of drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "c944a18f",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "Creatinine > 1.5mg/dL",
+        "raw_criterion_text": "Creatinine > 1.5 mg/dL",
+        "status": "NOT_SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Creatinine: 1.04 mg/dL (threshold: > 1.5mg/dL)",
+            "source_type": "structured",
+            "source_date": "2024-04-15",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "74e2bb87",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DIETSUPP-2MOS present",
+        "raw_criterion_text": "Dietary supplements within 2 months",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 3,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 0.9666666666666667
+  },
+  {
+    "patient_id": "SYN-736D04E9",
+    "nct_id": "NCT04217421",
+    "trial_title": "Aspirin Dose Optimization in Diabetic Patients Post-MI",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 1.0,
+    "inclusion_results": [
+      {
+        "criterion_id": "5e7759cf",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2024-01-04)",
+            "source_type": "structured",
+            "source_date": "2024-01-04",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "33a5f472",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 8.4 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-03-03",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "ef677e9f",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 1.0
+  },
+  {
+    "patient_id": "SYN-736D04E9",
+    "nct_id": "NCT05123456",
+    "trial_title": "Intensive Glycemic Control in Advanced CAD Patients",
+    "overall_eligibility": "ELIGIBLE",
+    "overall_confidence": 1.0,
+    "inclusion_results": [
+      {
+        "criterion_id": "58b6fa15",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2024-01-04)",
+            "source_type": "structured",
+            "source_date": "2024-01-04",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "78f0cda0",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 8.4 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2024-03-03",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "cb66ae05",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": null,
+    "match_score": 1.0
+  },
+  {
+    "patient_id": "SYN-EC68AA92",
+    "nct_id": "NCT04088630",
+    "trial_title": "Metformin for Reducing Metabolic Syndrome in T2DM Patients With CAD",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.8666666666666667,
+    "inclusion_results": [
+      {
+        "criterion_id": "e172f5d1",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus diagnosis",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2020-12-22)",
+            "source_type": "structured",
+            "source_date": "2020-12-22",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "adcb7d71",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c \u2014 no results in temporal window",
+        "raw_criterion_text": "HbA1c between 6.5% and 9.5% within 3 months",
+        "status": "ABSTAIN",
+        "confidence": 0.5,
+        "abstention_reason": "TEMPORAL_AMBIGUITY",
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "a8b08e87",
+        "criterion_type": "DEMOGRAPHIC",
+        "criterion_summary": "Age BETWEEN 30.0",
+        "raw_criterion_text": "Age 30 to 75 years",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Patient age: 63",
+            "source_type": "structured",
+            "source_date": null,
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "8a601efa",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "History of drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "e9a2dada",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "Creatinine > 1.5mg/dL",
+        "raw_criterion_text": "Creatinine > 1.5 mg/dL",
+        "status": "SATISFIED",
+        "confidence": 0.9,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "Creatinine: 2.0 mg/dL (threshold: > 1.5mg/dL)",
+            "source_type": "structured",
+            "source_date": "2024-03-29",
+            "source_id": "",
+            "relevance_score": 0.9
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "ccaa80f2",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DIETSUPP-2MOS present",
+        "raw_criterion_text": "Dietary supplements within 2 months",
+        "status": "SATISFIED",
+        "confidence": 0.8,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 2,
+    "n_inclusion_abstain": 1,
+    "n_exclusion_triggered": 2,
+    "blocking_criterion_summary": "EXCLUDED: Creatinine > 1.5mg/dL",
+    "match_score": 0.7222222222222223
+  },
+  {
+    "patient_id": "SYN-EC68AA92",
+    "nct_id": "NCT04217421",
+    "trial_title": "Aspirin Dose Optimization in Diabetic Patients Post-MI",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.9333333333333332,
+    "inclusion_results": [
+      {
+        "criterion_id": "97ab8f80",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2020-12-22)",
+            "source_type": "structured",
+            "source_date": "2020-12-22",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "729dfc89",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "NOT_SATISFIED",
+        "confidence": 0.8,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 5.7 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2023-12-14",
+            "source_id": "",
+            "relevance_score": 0.8
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "133349bc",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 1,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": "FAILED INCLUSION: HbA1c BETWEEN 6.5%",
+    "match_score": 0.4666666666666666
+  },
+  {
+    "patient_id": "SYN-EC68AA92",
+    "nct_id": "NCT05123456",
+    "trial_title": "Intensive Glycemic Control in Advanced CAD Patients",
+    "overall_eligibility": "INELIGIBLE",
+    "overall_confidence": 0.9333333333333332,
+    "inclusion_results": [
+      {
+        "criterion_id": "85404906",
+        "criterion_type": "DIAGNOSIS",
+        "criterion_summary": "type 2 diabetes mellitus (present)",
+        "raw_criterion_text": "Type 2 diabetes mellitus",
+        "status": "SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "E11.9: Type 2 diabetes mellitus without complications (onset: 2020-12-22)",
+            "source_type": "structured",
+            "source_date": "2020-12-22",
+            "source_id": "",
+            "relevance_score": 1.0
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      },
+      {
+        "criterion_id": "def36093",
+        "criterion_type": "LAB_VALUE",
+        "criterion_summary": "HbA1c BETWEEN 6.5%",
+        "raw_criterion_text": "HbA1c 6.5-9.5%",
+        "status": "NOT_SATISFIED",
+        "confidence": 0.8,
+        "abstention_reason": null,
+        "evidence": [
+          {
+            "text": "HbA1c: 5.7 % (threshold: BETWEEN 6.5%)",
+            "source_type": "structured",
+            "source_date": "2023-12-14",
+            "source_id": "",
+            "relevance_score": 0.8
+          }
+        ],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "exclusion_results": [
+      {
+        "criterion_id": "b2ef6db3",
+        "criterion_type": "BEHAVIORAL",
+        "criterion_summary": "DRUG_ABUSE present",
+        "raw_criterion_text": "Drug abuse",
+        "status": "NOT_SATISFIED",
+        "confidence": 1.0,
+        "abstention_reason": null,
+        "evidence": [],
+        "sub_results": [],
+        "error_category": null
+      }
+    ],
+    "n_inclusion_satisfied": 1,
+    "n_inclusion_abstain": 0,
+    "n_exclusion_triggered": 0,
+    "blocking_criterion_summary": "FAILED INCLUSION: HbA1c BETWEEN 6.5%",
+    "match_score": 0.4666666666666666
+  }
+]
