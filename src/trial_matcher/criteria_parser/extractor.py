@@ -1,10 +1,10 @@
-"""Two-pass criteria extractor using Ollama + instructor."""
+"""Two-pass criteria extractor using Groq (cloud) or Ollama (local) + instructor."""
 
 from __future__ import annotations
 
+import json
 import logging
 import re
-import uuid
 from typing import Any
 
 from trial_matcher.config import Settings
@@ -30,7 +30,6 @@ from trial_matcher.schemas.criteria import (
 
 logger = logging.getLogger(__name__)
 
-# Type-to-model mapping for instructor validation
 _TYPE_MODEL_MAP: dict[str, type] = {
     CriterionType.LAB_VALUE: LabValueCriterion,
     CriterionType.DIAGNOSIS: DiagnosisCriterion,
@@ -44,51 +43,70 @@ _TYPE_MODEL_MAP: dict[str, type] = {
 }
 
 
+def _build_openai_client(base_url: str, api_key: str, timeout: int) -> Any:
+    """Build an instructor-wrapped OpenAI-compatible client."""
+    try:
+        import instructor
+        import openai
+
+        raw = openai.OpenAI(base_url=base_url, api_key=api_key, timeout=timeout)
+        return instructor.from_openai(raw, mode=instructor.Mode.JSON)
+    except ImportError as e:
+        raise RuntimeError(
+            "Install instructor and openai: pip install instructor openai"
+        ) from e
+
+
 class CriteriaExtractor:
-    """Two-pass extraction: deterministic segmentation + per-criterion LLM extraction."""
+    """
+    Two-pass extraction: deterministic segmentation + per-criterion LLM extraction.
+
+    Backends (in priority order):
+      1. Groq  — free cloud API, llama-3.1-8b-instant
+      2. Ollama — local, llama3.1:8b
+    """
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
         self._client: Any = None
+        self._model: str = ""
 
-    def _get_client(self) -> Any:
-        if self._client is None:
-            try:
-                import instructor
-                import openai
+    def _get_client(self) -> tuple[Any, str]:
+        if self._client is not None:
+            return self._client, self._model
 
-                raw_client = openai.OpenAI(
-                    base_url=f"{self.settings.ollama_base_url}/v1",
-                    api_key="ollama",
-                    timeout=self.settings.ollama_timeout_secs,
-                )
-                self._client = instructor.from_openai(raw_client, mode=instructor.Mode.JSON)
-            except ImportError as e:
-                raise RuntimeError(
-                    "Install instructor and openai: pip install instructor openai"
-                ) from e
-        return self._client
+        s = self.settings
+
+        if s.llm_backend == "groq" and s.groq_api_key:
+            logger.info("Using Groq backend (%s)", s.groq_model)
+            self._client = _build_openai_client(
+                s.groq_base_url, s.groq_api_key, timeout=60
+            )
+            self._model = s.groq_model
+
+        else:
+            # Fallback to Ollama
+            logger.info("Using Ollama backend (%s)", s.ollama_model)
+            self._client = _build_openai_client(
+                f"{s.ollama_base_url}/v1", "ollama", timeout=s.ollama_timeout_secs
+            )
+            self._model = s.ollama_model
+
+        return self._client, self._model
 
     def extract(self, raw_text: str, nct_id: str) -> EligibilityCriteriaSet:
         """Extract structured criteria from raw eligibility text."""
         incl_lines, excl_lines = self._split_sections(raw_text)
         logger.info(
-            "Extracted %d inclusion, %d exclusion lines for %s",
-            len(incl_lines),
-            len(excl_lines),
-            nct_id,
+            "%s: %d inclusion, %d exclusion lines", nct_id, len(incl_lines), len(excl_lines)
         )
 
-        inclusion: list[ParsedCriterion] = []
-        exclusion: list[ParsedCriterion] = []
-
-        for line in incl_lines:
-            criterion = self._extract_one(line, "INCLUSION")
-            inclusion.append(criterion)
-
-        for line in excl_lines:
-            criterion = self._extract_one(line, "EXCLUSION")
-            exclusion.append(criterion)
+        inclusion: list[ParsedCriterion] = [
+            self._extract_one(line, "INCLUSION") for line in incl_lines
+        ]
+        exclusion: list[ParsedCriterion] = [
+            self._extract_one(line, "EXCLUSION") for line in excl_lines
+        ]
 
         warnings = [
             getattr(c, "ambiguity_note", "")
@@ -105,35 +123,27 @@ class CriteriaExtractor:
         )
 
     def _extract_one(self, text: str, section: str) -> ParsedCriterion:
-        """Extract a single criterion via LLM (with instructor retry)."""
-        client = self._get_client()
+        client, model = self._get_client()
         prompt = build_extraction_prompt(text, section)
 
         try:
-            # First, get raw dict to determine type
-            import json
-
             response = client.chat.completions.create(
-                model=self.settings.ollama_model,
+                model=model,
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": prompt},
                 ],
                 temperature=0.0,
-                response_model=None,  # raw response first
+                response_model=None,
             )
-
             raw_content = response.choices[0].message.content
             data = json.loads(raw_content)
             criterion_type = data.get("type", "UNKNOWN")
-
-            # Validate against the correct Pydantic model
             model_class = _TYPE_MODEL_MAP.get(criterion_type, UnknownCriterion)
-            criterion = model_class.model_validate(data)
-            return criterion  # type: ignore[return-value]
+            return model_class.model_validate(data)  # type: ignore[return-value]
 
         except Exception as e:
-            logger.warning("Failed to extract criterion '%s': %s", text[:80], e)
+            logger.warning("Extraction failed for '%s': %s", text[:60], e)
             return UnknownCriterion(
                 raw_text=text,
                 ambiguity_note=f"Extraction failed: {type(e).__name__}",
@@ -142,7 +152,6 @@ class CriteriaExtractor:
     # ── Pass 1: deterministic segmentation ──────────────────────────────────
 
     def _split_sections(self, text: str) -> tuple[list[str], list[str]]:
-        """Split raw eligibility text into inclusion and exclusion lines."""
         lines = text.split("\n")
         inclusion_lines: list[str] = []
         exclusion_lines: list[str] = []
@@ -152,21 +161,15 @@ class CriteriaExtractor:
             stripped = raw_line.strip()
             if not stripped:
                 continue
-
             section = self._detect_section_header(stripped)
             if section:
                 current_section = section
                 continue
-
-            # Skip if we haven't seen a section header yet
             if current_section is None:
                 continue
-
-            # Clean up bullet points and numbering
             cleaned = self._clean_line(stripped)
             if not cleaned or len(cleaned) < 5:
                 continue
-
             if current_section == "inclusion":
                 inclusion_lines.append(cleaned)
             elif current_section == "exclusion":
@@ -178,13 +181,10 @@ class CriteriaExtractor:
         line_lower = line.lower().rstrip(":").strip()
         for header in SEGMENTATION_HEADERS:
             if line_lower == header or line_lower.startswith(header):
-                if "exclusion" in line_lower:
-                    return "exclusion"
-                return "inclusion"
+                return "exclusion" if "exclusion" in line_lower else "inclusion"
         return None
 
     def _clean_line(self, line: str) -> str:
-        # Remove leading bullet/number patterns: "1.", "1)", "-", "*", "•"
         cleaned = re.sub(r"^[\d]+[.)]\s*", "", line)
         cleaned = re.sub(r"^[-*•]\s*", "", cleaned)
         return cleaned.strip()

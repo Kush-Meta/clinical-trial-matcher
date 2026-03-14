@@ -1,4 +1,4 @@
-"""Trial Search page — ClinicalTrials.gov browser."""
+"""Trial Search page — live ClinicalTrials.gov search."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from trial_matcher.config import get_settings
-from trial_matcher.trials.ctgov_client import CTGovClient, ClinicalTrial
+from trial_matcher.trials.ctgov_client import CTGovClient
 
 st.set_page_config(page_title="Trial Search — Clinical Trial Matcher", layout="wide")
 st.title("🔍 Clinical Trial Search")
@@ -27,8 +27,8 @@ def load_demo_trials() -> list[dict]:
     return []
 
 
-@st.cache_data(ttl=300, show_spinner="Searching ClinicalTrials.gov...")
-def search_trials(query: str, max_results: int = 20) -> list[dict]:
+@st.cache_data(ttl=600, show_spinner="Searching ClinicalTrials.gov…")
+def search_trials(query: str, max_results: int) -> list[dict]:
     with CTGovClient() as client:
         trials = client.search(query, max_results=max_results)
     return [
@@ -46,75 +46,87 @@ def search_trials(query: str, max_results: int = 20) -> list[dict]:
             "enrollment": t.enrollment,
         }
         for t in trials
+        if t.eligibility_criteria  # only trials with parseable criteria
     ]
 
 
-# ── Search UI ────────────────────────────────────────────────────────────────
+# ── Search bar (always live) ──────────────────────────────────────────────────
 
-if settings.demo_mode:
-    st.info("**Demo Mode**: Showing 10 pre-fetched trials. Search disabled to avoid API calls.", icon="ℹ️")
-    trial_dicts = load_demo_trials()
+col1, col2, col3 = st.columns([3, 1, 1])
+with col1:
+    query = st.text_input(
+        "Search",
+        value="type 2 diabetes mellitus coronary artery disease",
+        placeholder="Disease, drug, NCT ID, condition…",
+        label_visibility="collapsed",
+    )
+with col2:
+    max_results = st.selectbox("Max results", [10, 20, 50], index=0)
+with col3:
+    search_clicked = st.button("🔍 Search", type="primary", use_container_width=True)
+
+# Run search or show defaults
+if search_clicked and query:
+    trial_dicts = search_trials(query, max_results)
+    if not trial_dicts:
+        st.warning("No recruiting trials found with eligibility criteria. Try a broader query.")
 else:
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        query = st.text_input(
-            "Search ClinicalTrials.gov",
-            value="type 2 diabetes mellitus",
-            placeholder="e.g., type 2 diabetes, coronary artery disease...",
+    trial_dicts = load_demo_trials()
+    if not search_clicked:
+        st.info(
+            "Showing 5 pre-loaded trials. Enter a search term and click Search to query "
+            "ClinicalTrials.gov live.",
+            icon="ℹ️",
         )
-    with col2:
-        max_results = st.number_input("Max results", min_value=5, max_value=100, value=20, step=5)
-
-    if st.button("🔍 Search", type="primary"):
-        with st.spinner("Searching..."):
-            trial_dicts = search_trials(query, max_results)
-        st.success(f"Found {len(trial_dicts)} trials")
-    else:
-        trial_dicts = load_demo_trials()
 
 if not trial_dicts:
-    st.warning("No trials loaded. Check your connection or run `scripts/precompute_demo.py`.")
     st.stop()
 
-# Store selected trial in session state
+st.caption(f"**{len(trial_dicts)} trials**")
 st.divider()
-st.markdown(f"**{len(trial_dicts)} trials found**")
+
+# ── Trial cards ───────────────────────────────────────────────────────────────
 
 for i, trial in enumerate(trial_dicts):
+    status_icon = "🟢" if trial["overall_status"] == "RECRUITING" else "🟡"
+    has_criteria = bool(trial.get("eligibility_criteria"))
+
     with st.expander(
-        f"**{trial['nct_id']}** — {trial['brief_title'][:100]}",
+        f"{status_icon} **{trial['nct_id']}** — {trial['brief_title'][:90]}",
         expanded=(i == 0),
     ):
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.caption("Status")
-            status_color = "🟢" if trial["overall_status"] == "RECRUITING" else "🟡"
-            st.write(f"{status_color} {trial['overall_status']}")
-        with col2:
-            st.caption("Phase")
-            st.write(trial.get("phase") or "—")
-        with col3:
-            st.caption("Age Range")
-            min_age = trial.get("minimum_age", "")
-            max_age = trial.get("maximum_age", "")
-            age_range = f"{min_age} – {max_age}" if min_age or max_age else "Any"
-            st.write(age_range)
-        with col4:
-            st.caption("Enrollment")
-            st.write(trial.get("enrollment") or "—")
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Status", trial["overall_status"])
+        c2.metric("Phase", trial.get("phase") or "—")
+        age_str = " – ".join(filter(None, [trial.get("minimum_age"), trial.get("maximum_age")])) or "Any"
+        c3.metric("Age range", age_str)
+        c4.metric("Enrollment", trial.get("enrollment") or "—")
 
         if trial.get("conditions"):
             st.caption("**Conditions**")
-            st.write(", ".join(trial["conditions"][:5]))
-
+            st.write(", ".join(trial["conditions"][:6]))
         if trial.get("lead_sponsor"):
             st.caption("**Sponsor**")
             st.write(trial["lead_sponsor"])
 
-        if trial.get("eligibility_criteria"):
-            with st.expander("📋 View Eligibility Criteria"):
+        if has_criteria:
+            with st.expander("📋 Eligibility Criteria (raw)"):
                 st.text(trial["eligibility_criteria"][:3000])
+        else:
+            st.warning("No eligibility criteria text available for this trial.")
 
-        if st.button(f"Select for Matching", key=f"select_{trial['nct_id']}"):
-            st.session_state["selected_trial"] = trial
-            st.success(f"Selected **{trial['nct_id']}** for matching → go to Match Results")
+        col_btn, col_status = st.columns([2, 3])
+        with col_btn:
+            if st.button(
+                "✅ Select for Matching",
+                key=f"select_{trial['nct_id']}",
+                disabled=not has_criteria,
+                type="primary",
+            ):
+                st.session_state["selected_trial"] = trial
+                st.session_state.pop("match_result", None)  # clear stale result
+                st.success(f"Selected **{trial['nct_id']}** → go to Match Results")
+
+        with col_status:
+            if st.session_state.get("selected_trial", {}).get("nct_id") == trial["nct_id"]:
+                st.success("Currently selected for matching")

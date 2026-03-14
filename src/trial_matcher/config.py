@@ -15,7 +15,15 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # Ollama
+    # LLM backend: "groq" (cloud, free) or "ollama" (local)
+    llm_backend: str = "groq"
+
+    # Groq (free cloud API — https://console.groq.com)
+    groq_api_key: str = ""
+    groq_model: str = "llama-3.1-8b-instant"
+    groq_base_url: str = "https://api.groq.com/openai/v1"
+
+    # Ollama (local fallback)
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "llama3.1:8b"
     ollama_timeout_secs: int = 120
@@ -39,6 +47,13 @@ class Settings(BaseSettings):
     # Optional MIMIC-IV
     mimic_db_url: str | None = None
 
+    @property
+    def llm_configured(self) -> bool:
+        """True if a live LLM backend is available."""
+        if self.llm_backend == "groq":
+            return bool(self.groq_api_key)
+        return True  # ollama always assumed available locally
+
 
 def get_settings() -> Settings:
     """Return settings, preferring Streamlit secrets if available."""
@@ -46,7 +61,6 @@ def get_settings() -> Settings:
         import streamlit as st  # type: ignore[import]
 
         secrets = dict(st.secrets)
-        # Flatten nested secrets
         flat: dict[str, str] = {}
         for k, v in secrets.items():
             if isinstance(v, dict):
@@ -54,7 +68,6 @@ def get_settings() -> Settings:
                     flat[kk] = str(vv)
             else:
                 flat[k] = str(v)
-        # Override environment
         for k, v in flat.items():
             os.environ.setdefault(k, v)
     except Exception:

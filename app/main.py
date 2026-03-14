@@ -2,17 +2,12 @@
 
 from __future__ import annotations
 
-import json
-import logging
 import sys
 from pathlib import Path
 
 import streamlit as st
 
-# Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
-
-logging.basicConfig(level=logging.INFO)
 
 st.set_page_config(
     page_title="Clinical Trial Matcher",
@@ -25,94 +20,91 @@ from trial_matcher.config import get_settings
 
 settings = get_settings()
 
-
-def load_precomputed() -> dict:
-    """Load pre-computed demo data."""
-    precomputed_path = Path("data/precomputed/demo_match_results.json")
-    if precomputed_path.exists():
-        return json.loads(precomputed_path.read_text())
-    return {}
-
-
-# ── Sidebar ──────────────────────────────────────────────────────────────────
+# ── Sidebar ───────────────────────────────────────────────────────────────────
 
 with st.sidebar:
-    st.image("https://img.shields.io/badge/Clinical%20Trial-Matcher-blue", width=200)
-    st.title("Clinical Trial Matcher")
+    st.title("🏥 Clinical Trial Matcher")
+    st.divider()
 
     if settings.demo_mode:
-        st.warning("**Demo Mode** — Pre-computed results (no LLM required)", icon="ℹ️")
+        st.warning("**Demo Mode** — pre-computed results", icon="ℹ️")
+    elif settings.llm_configured:
+        backend = settings.llm_backend.upper()
+        model = settings.groq_model if settings.llm_backend == "groq" else settings.ollama_model
+        st.success(f"**Live Mode** — {backend}", icon="✅")
+        st.caption(f"Model: `{model}`")
     else:
-        st.success("**Full Mode** — Live Ollama inference", icon="✅")
-        st.caption(f"Model: `{settings.ollama_model}`")
+        st.error("**No LLM key** — add `TRIAL_MATCHER_GROQ_API_KEY`", icon="🔴")
 
     st.divider()
     st.markdown("""
-    **Navigation**
-    - 👤 Patient Profile
-    - 🔍 Trial Search
-    - ✅ Match Results
-    - 📊 Evaluation Dashboard
-    """)
-
+**Pages**
+1. 👤 Patient Profile
+2. 🔍 Trial Search
+3. ✅ Match Results
+4. 📊 Evaluation Dashboard
+""")
     st.divider()
-    st.caption("Built with Streamlit · Pydantic · Ollama")
-    st.caption("[GitHub](https://github.com/yourusername/clinical-trial-matcher)")
+    st.caption("[GitHub](https://github.com/Kush-Meta/clinical-trial-matcher)")
 
-# ── Home page ────────────────────────────────────────────────────────────────
+# ── Home ──────────────────────────────────────────────────────────────────────
 
 st.title("🏥 Clinical Trial Eligibility Matching Engine")
-st.markdown("""
-A production-quality system that matches patient charts to clinical trial eligibility criteria —
-with **typed criterion parsing**, **calibrated confidence**, and **abstention** when evidence is insufficient.
-""")
+st.markdown(
+    "Match patient charts to clinical trial eligibility criteria — "
+    "with **typed criterion parsing**, **calibrated confidence**, and **abstention** "
+    "when evidence is insufficient."
+)
 
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.metric("Criterion Types", "8", help="LAB_VALUE, DIAGNOSIS, MEDICATION, BEHAVIORAL, DEMOGRAPHIC, FUNCTIONAL, PROCEDURE, COMPOSITE")
-
-with col2:
-    st.metric("n2c2 Criteria", "13", help="n2c2 2018 shared task benchmark criteria")
-
-with col3:
-    abstain_pct = int(settings.abstention_confidence_threshold * 100)
-    st.metric("Abstention Threshold", f"{abstain_pct}%", help="Predictions below this confidence are abstained")
-
-with col4:
-    st.metric("Demo Patients", "5", help="Synthetic patients with n2c2 prevalence distributions")
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("Criterion types", "8", help="LAB_VALUE · DIAGNOSIS · MEDICATION · BEHAVIORAL · DEMOGRAPHIC · FUNCTIONAL · PROCEDURE · COMPOSITE")
+c2.metric("n2c2 benchmark", "13 criteria", help="288 patients × 13 binary criteria")
+c3.metric("Abstention threshold", f"{int(settings.abstention_confidence_threshold*100)}%")
+c4.metric("LLM backend", settings.llm_backend.upper() if not settings.demo_mode else "DEMO")
 
 st.divider()
+
+if not settings.demo_mode and not settings.llm_configured:
+    st.error(
+        "### ⚙️ Setup Required\n\n"
+        "Add your Groq API key to Streamlit secrets to enable live matching:\n\n"
+        "```toml\n"
+        "TRIAL_MATCHER_GROQ_API_KEY = \"gsk_...\"\n"
+        "TRIAL_MATCHER_LLM_BACKEND = \"groq\"\n"
+        "```\n\n"
+        "Get a **free** key at [console.groq.com](https://console.groq.com) — no credit card needed.",
+        icon="🔑",
+    )
+else:
+    mode_label = "Demo" if settings.demo_mode else "Live"
+    st.success(f"**{mode_label} mode active.** Use the sidebar to navigate.", icon="✅")
 
 st.markdown("""
 ## How It Works
 
 ```
-Patient Chart + Trial Eligibility Text
-         ↓
-   [Criteria Parser]          Two-pass: deterministic segmentation + LLM extraction
-         ↓                    (Ollama llama3.1:8b via instructor)
-   Typed Criterion Set        Discriminated union: LabValueCriterion, DiagnosisCriterion, …
-         ↓
-   [Matching Engine]          Per-criterion evaluators with evidence extraction
-         ↓
-   CriterionMatchResult       Status: SATISFIED | NOT_SATISFIED | ABSTAIN
-   + Confidence [0,1]         Penalty model: data quality, temporal, source type
-   + Evidence Snippets        Audit trail for every decision
-         ↓
-   TrialMatchResult           ELIGIBLE | INELIGIBLE | UNCERTAIN + match score
+Patient Chart  +  Trial Eligibility Text
+        ↓
+  [Two-Pass Parser]      Deterministic segmentation → LLM per-criterion extraction
+        ↓                (Groq llama-3.1-8b-instant — free, fast)
+  Typed Criteria         LabValueCriterion · DiagnosisCriterion · MedicationCriterion …
+        ↓
+  [Matching Engine]      Per-criterion evaluators + evidence extraction
+        ↓
+  CriterionMatchResult   SATISFIED | NOT_SATISFIED | ABSTAIN
+  + Confidence [0–1]     Penalty model: source, age, temporal, unit mismatch
+  + Evidence Snippets    Audit trail for every decision
+        ↓
+  TrialMatchResult       ELIGIBLE | INELIGIBLE | UNCERTAIN + ranked match score
 ```
 
-## Architecture Highlights
+## Key Design Choices
 
-| Component | Detail |
+| Decision | Why |
 |---|---|
-| **Typed criteria** | Discriminated union drives all evaluation logic |
-| **Abstention** | Below 35% confidence → ABSTAIN with reason code |
-| **Temporal** | Date arithmetic with uncertainty bands for year-only dates |
-| **ICD-10 matching** | Prefix match captures all specificity variants |
-| **Calibration** | ECE metric + reliability diagram |
-| **Benchmark** | n2c2 2018: 288 patients × 13 criteria |
-
-→ Use the sidebar to navigate to **Patient Profile**, **Trial Search**, or **Match Results**.
+| ICD-10 prefix match | `I21` matches `I21.0`, `I21.9` — captures all specificity variants |
+| AND confidence = min(children) | Weakest-link principle — clinically correct |
+| Abstention at <35% confidence | Below this threshold, false-positive risk > benefit |
+| Groq (free) for cloud | Same llama-3.1-8b as Ollama, OpenAI-compatible, 14k req/day free |
+| Pre-computed demo data | Enables Streamlit Cloud deploy without any API key |
 """)

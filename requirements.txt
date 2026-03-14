@@ -7,3 +7,5 @@ httpx==0.26.0
 rapidfuzz==3.6.1
 scikit-learn==1.4.0
 matplotlib==3.8.2
+openai==1.12.0
+instructor==0.5.2

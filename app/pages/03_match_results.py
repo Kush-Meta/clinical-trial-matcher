@@ -1,4 +1,4 @@
-"""Match Results page — per-criterion audit trail."""
+"""Match Results page — per-criterion audit trail (live or demo)."""
 
 from __future__ import annotations
 
@@ -15,16 +15,11 @@ from trial_matcher.config import get_settings
 from trial_matcher.schemas.match import CriterionMatchResult, MatchStatus, TrialMatchResult
 
 st.set_page_config(page_title="Match Results — Clinical Trial Matcher", layout="wide")
-st.title("✅ Match Results — Per-Criterion Audit Trail")
+st.title("✅ Match Results")
 
 settings = get_settings()
 
-STATUS_COLOR = {
-    "SATISFIED": "🟢",
-    "NOT_SATISFIED": "🔴",
-    "ABSTAIN": "🟡",
-}
-
+STATUS_ICON = {"SATISFIED": "🟢", "NOT_SATISFIED": "🔴", "ABSTAIN": "🟡"}
 STATUS_BADGE = {
     "SATISFIED": "✅ SATISFIED",
     "NOT_SATISFIED": "❌ NOT SATISFIED",
@@ -33,195 +28,187 @@ STATUS_BADGE = {
 
 
 @st.cache_data
-def load_precomputed_results() -> list[dict]:
+def load_precomputed() -> list[dict]:
     path = Path("data/precomputed/demo_match_results.json")
-    if path.exists():
-        return json.loads(path.read_text())
-    return []
+    return json.loads(path.read_text()) if path.exists() else []
 
 
-def confidence_bar(confidence: float) -> str:
-    filled = int(confidence * 10)
-    bar = "█" * filled + "░" * (10 - filled)
-    return f"`{bar}` {confidence:.0%}"
-
-
-def render_criterion_row(result: CriterionMatchResult, is_exclusion: bool = False) -> None:
-    """Render a single criterion result as an expander row."""
-    status_icon = STATUS_COLOR.get(result.status.value, "❓")
-    label_prefix = "EXCLUDE" if is_exclusion else "INCLUDE"
-
-    with st.expander(
-        f"{status_icon} [{label_prefix}] {result.criterion_summary[:100]}",
-        expanded=(result.status == MatchStatus.NOT_SATISFIED),
-    ):
-        col1, col2, col3 = st.columns([2, 2, 3])
-
-        with col1:
-            st.caption("Status")
-            badge = STATUS_BADGE.get(result.status.value, result.status.value)
-            st.markdown(f"**{badge}**")
-            if result.abstention_reason:
-                st.caption(f"Reason: `{result.abstention_reason.value}`")
-
-        with col2:
-            st.caption("Confidence")
-            st.progress(result.confidence, text=f"{result.confidence:.0%} ({result.confidence_label})")
-
-        with col3:
-            st.caption("Criterion Type")
-            st.code(result.criterion_type.value)
-
-        if result.raw_criterion_text:
-            st.caption("**Raw Criterion Text**")
-            st.text(result.raw_criterion_text[:500])
-
-        if result.evidence:
-            st.caption("**Evidence**")
-            for ev in result.evidence:
-                date_str = f" ({ev.source_date})" if ev.source_date else ""
-                st.success(f"[{ev.source_type.upper()}{date_str}] {ev.text}")
-
-        if result.sub_results:
-            st.caption("**Sub-criteria**")
-            for sub in result.sub_results:
-                sub_icon = STATUS_COLOR.get(sub.status.value, "❓")
-                st.write(f"  {sub_icon} {sub.criterion_summary[:80]} — {sub.confidence:.0%}")
-
-
-def render_trial_result(result: TrialMatchResult) -> None:
-    """Render a complete trial match result."""
-    # Overall status header
-    eligibility_color = {"ELIGIBLE": "🟢", "INELIGIBLE": "🔴", "UNCERTAIN": "🟡"}
+def render_result(result: TrialMatchResult) -> None:
+    elig_icon = {"ELIGIBLE": "🟢", "INELIGIBLE": "🔴", "UNCERTAIN": "🟡"}
     st.markdown(
-        f"## {eligibility_color.get(result.overall_eligibility, '❓')} "
-        f"**{result.overall_eligibility}** for {result.nct_id}"
+        f"## {elig_icon.get(result.overall_eligibility, '❓')} "
+        f"**{result.overall_eligibility}**"
     )
-    st.markdown(f"*{result.trial_title}*")
+    st.caption(f"{result.nct_id} — {result.trial_title}")
 
-    # Summary metrics
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        st.metric("Overall Confidence", f"{result.overall_confidence:.0%}")
-    with col2:
-        st.metric("Inclusion Satisfied", f"{result.n_inclusion_satisfied}/{result.n_inclusion_total}")
-    with col3:
-        st.metric("Abstained", result.n_inclusion_abstain, help="Criteria with insufficient evidence")
-    with col4:
-        st.metric("Exclusions Triggered", result.n_exclusion_triggered)
-    with col5:
-        st.metric("Match Score", f"{result.match_score:.2f}")
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Confidence", f"{result.overall_confidence:.0%}")
+    c2.metric("Inclusion met", f"{result.n_inclusion_satisfied}/{result.n_inclusion_total}")
+    c3.metric("Abstained", result.n_inclusion_abstain)
+    c4.metric("Exclusions triggered", result.n_exclusion_triggered)
+    c5.metric("Match score", f"{result.match_score:.2f}")
 
     if result.blocking_criterion_summary:
-        st.error(f"**Blocking Criterion**: {result.blocking_criterion_summary}")
+        st.error(f"**Blocking**: {result.blocking_criterion_summary}")
 
     st.divider()
 
-    # Inclusion criteria
-    if result.inclusion_results:
-        st.subheader(f"Inclusion Criteria ({result.n_inclusion_total} total)")
-        for r in result.inclusion_results:
-            render_criterion_row(r, is_exclusion=False)
+    def render_criteria_section(results: list[CriterionMatchResult], label: str) -> None:
+        if not results:
+            return
+        st.subheader(f"{label} ({len(results)})")
+        for r in results:
+            is_excl = label.startswith("Excl")
+            icon = STATUS_ICON.get(r.status.value, "❓")
+            prefix = "EXCL" if is_excl else "INCL"
+            with st.expander(
+                f"{icon} [{prefix}] {r.criterion_summary[:100]}",
+                expanded=(r.status == MatchStatus.NOT_SATISFIED),
+            ):
+                col1, col2, col3 = st.columns([2, 2, 3])
+                with col1:
+                    st.caption("Status")
+                    st.markdown(f"**{STATUS_BADGE.get(r.status.value, r.status.value)}**")
+                    if r.abstention_reason:
+                        st.caption(f"`{r.abstention_reason.value}`")
+                with col2:
+                    st.caption("Confidence")
+                    st.progress(r.confidence, text=f"{r.confidence:.0%}")
+                with col3:
+                    st.caption("Type")
+                    st.code(r.criterion_type.value)
 
-    # Exclusion criteria
+                if r.raw_criterion_text:
+                    st.caption("**Raw text**")
+                    st.text(r.raw_criterion_text[:400])
+
+                for ev in r.evidence:
+                    date_str = f" ({ev.source_date})" if ev.source_date else ""
+                    st.success(f"[{ev.source_type.upper()}{date_str}] {ev.text}")
+
+                for sub in r.sub_results:
+                    sub_icon = STATUS_ICON.get(sub.status.value, "❓")
+                    st.write(f"  {sub_icon} {sub.criterion_summary[:80]} — {sub.confidence:.0%}")
+
+    render_criteria_section(result.inclusion_results, "Inclusion Criteria")
     if result.exclusion_results:
         st.divider()
-        st.subheader(f"Exclusion Criteria ({result.n_exclusion_total} total)")
-        for r in result.exclusion_results:
-            render_criterion_row(r, is_exclusion=True)
+        render_criteria_section(result.exclusion_results, "Exclusion Criteria")
 
     # Ambiguity panel
-    ambiguous_results = [
-        r for r in result.get_all_results()
-        if r.abstention_reason is not None
-    ]
-    if ambiguous_results:
+    abstained = [r for r in result.get_all_results() if r.status == MatchStatus.ABSTAIN]
+    if abstained:
         st.divider()
-        st.subheader("⚠️ Ambiguity Panel — Show Your Work")
+        st.subheader("⚠️ Abstention Panel")
         st.caption(
-            "These criteria had insufficient evidence or parsing uncertainty. "
-            "Abstention prevents false positives in clinical contexts."
+            "Criteria where evidence was insufficient to make a confident call. "
+            "Abstention prevents false positives."
         )
-        ambig_data = [
+        st.dataframe(pd.DataFrame([
             {
                 "Criterion": r.criterion_summary[:80],
                 "Type": r.criterion_type.value,
-                "Abstention Reason": r.abstention_reason.value if r.abstention_reason else "—",
+                "Reason": r.abstention_reason.value if r.abstention_reason else "—",
                 "Confidence": f"{r.confidence:.0%}",
-                "Impact": "Blocked outcome" if r.is_blocking else "Uncertain eligibility",
             }
-            for r in ambiguous_results
-        ]
-        st.dataframe(pd.DataFrame(ambig_data), use_container_width=True)
+            for r in abstained
+        ]), use_container_width=True)
 
 
-# ── Main ─────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# DEMO MODE — show pre-computed results
+# ─────────────────────────────────────────────────────────────────────────────
 
-precomputed = load_precomputed_results()
-
-if settings.demo_mode or not st.session_state.get("selected_patient"):
-    # Demo mode: show pre-computed results
+if settings.demo_mode:
+    precomputed = load_precomputed()
     if not precomputed:
-        st.error("No pre-computed results found. Run `scripts/precompute_demo.py`.")
+        st.error("No pre-computed results. Run `scripts/precompute_demo.py`.")
         st.stop()
-
-    st.info("**Demo Mode**: Showing pre-computed match results.", icon="ℹ️")
-
-    # Patient selector
-    result_dicts = precomputed
-    patient_ids = list({r["patient_id"] for r in result_dicts})
-    selected_patient_id = st.selectbox("Select Patient", patient_ids)
-
-    patient_results = [r for r in result_dicts if r["patient_id"] == selected_patient_id]
-
-    if not patient_results:
-        st.warning("No results for this patient.")
-        st.stop()
-
+    st.info("**Demo Mode** — pre-computed results.", icon="ℹ️")
+    patient_ids = list({r["patient_id"] for r in precomputed})
+    pid = st.selectbox("Patient", patient_ids)
+    patient_results = [r for r in precomputed if r["patient_id"] == pid]
     trial_labels = [f"{r['nct_id']} — {r['trial_title'][:60]}" for r in patient_results]
-    selected_trial_idx = st.selectbox("Select Trial", range(len(patient_results)),
-                                       format_func=lambda i: trial_labels[i])
+    tidx = st.selectbox("Trial", range(len(patient_results)), format_func=lambda i: trial_labels[i])
+    render_result(TrialMatchResult.model_validate(patient_results[tidx]))
+    st.stop()
 
-    result_dict = patient_results[selected_trial_idx]
-    result = TrialMatchResult.model_validate(result_dict)
-    st.divider()
-    render_trial_result(result)
+# ─────────────────────────────────────────────────────────────────────────────
+# LIVE MODE
+# ─────────────────────────────────────────────────────────────────────────────
 
-else:
-    # Full mode: run live matching
-    patient_data = st.session_state.get("selected_patient")
-    trial_data = st.session_state.get("selected_trial")
+patient_data = st.session_state.get("selected_patient")
+trial_data = st.session_state.get("selected_trial")
 
-    if not patient_data:
-        st.warning("Please select a patient on the Patient Profile page first.")
-        st.stop()
-    if not trial_data:
-        st.warning("Please select a trial on the Trial Search page first.")
-        st.stop()
-
-    if st.button("🚀 Run Matching", type="primary"):
-        from trial_matcher.criteria_parser.extractor import CriteriaExtractor
-        from trial_matcher.matcher.engine import MatchingEngine
-        from trial_matcher.schemas.patient import PatientProfile
-
-        patient = PatientProfile.model_validate(patient_data)
-
-        with st.spinner("Parsing criteria..."):
-            extractor = CriteriaExtractor(settings)
-            criteria_set = extractor.extract(
-                trial_data["eligibility_criteria"],
-                trial_data["nct_id"],
-            )
-
-        with st.spinner("Running matching engine..."):
-            engine = MatchingEngine(settings)
-            result = engine.match(patient, criteria_set, trial_data["brief_title"])
-
-        st.session_state["match_result"] = result.model_dump(mode="json")
-        st.divider()
-        render_trial_result(result)
-    elif st.session_state.get("match_result"):
-        result = TrialMatchResult.model_validate(st.session_state["match_result"])
-        render_trial_result(result)
+# Status sidebar
+with st.sidebar:
+    st.markdown("### Session State")
+    if patient_data:
+        st.success(f"Patient: **{patient_data.get('patient_id', '?')}**")
     else:
-        st.info("Select a patient and trial, then click **Run Matching**.")
+        st.warning("No patient selected")
+        st.markdown("← Go to **Patient Profile**")
+    if trial_data:
+        st.success(f"Trial: **{trial_data.get('nct_id', '?')}**")
+    else:
+        st.warning("No trial selected")
+        st.markdown("← Go to **Trial Search**")
+
+    if not settings.llm_configured:
+        st.error("No LLM configured — add `TRIAL_MATCHER_GROQ_API_KEY` to secrets.")
+
+if not patient_data:
+    st.info("👈 First select a patient on the **Patient Profile** page.")
+    st.stop()
+
+if not trial_data:
+    st.info("👈 Then select a trial on the **Trial Search** page.")
+    st.stop()
+
+if not settings.llm_configured:
+    st.error(
+        "No LLM API key configured. Add your Groq API key to Streamlit secrets:\n\n"
+        "```toml\nTRIAL_MATCHER_GROQ_API_KEY = \"gsk_...\"\n```"
+    )
+    st.stop()
+
+# Show current selection
+col1, col2 = st.columns(2)
+col1.info(f"**Patient**: {patient_data.get('patient_id')} | Age {patient_data.get('age', '?')} | {patient_data.get('sex', '?')}")
+col2.info(f"**Trial**: {trial_data.get('nct_id')} — {trial_data.get('brief_title', '')[:60]}")
+
+# Run matching
+if st.button("🚀 Run Matching Engine", type="primary", use_container_width=False):
+    from trial_matcher.criteria_parser.extractor import CriteriaExtractor
+    from trial_matcher.matcher.engine import MatchingEngine
+    from trial_matcher.schemas.patient import PatientProfile
+
+    patient = PatientProfile.model_validate(patient_data)
+
+    progress = st.progress(0, text="Parsing eligibility criteria…")
+
+    with st.spinner(""):
+        extractor = CriteriaExtractor(settings)
+        criteria_set = extractor.extract(
+            trial_data["eligibility_criteria"],
+            trial_data["nct_id"],
+        )
+
+    progress.progress(60, text=f"Parsed {len(criteria_set.inclusion)} inclusion + {len(criteria_set.exclusion)} exclusion criteria. Running matching engine…")
+
+    engine = MatchingEngine(settings)
+    result = engine.match(patient, criteria_set, trial_data.get("brief_title", ""))
+
+    progress.progress(100, text="Done!")
+    st.session_state["match_result"] = result.model_dump(mode="json")
+
+elif st.session_state.get("match_result"):
+    result = TrialMatchResult.model_validate(st.session_state["match_result"])
+    st.divider()
+    render_result(result)
+    st.stop()
+
+if st.session_state.get("match_result"):
+    result = TrialMatchResult.model_validate(st.session_state["match_result"])
+    st.divider()
+    render_result(result)
